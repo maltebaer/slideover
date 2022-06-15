@@ -21,7 +21,7 @@ return [
     |
     | Livewire UI will inject the required Javascript in your blade template.
     | If you want to bundle the required Javascript you can set this to false
-    | and add `require('vendor/wire-elements/slideover/resources/js/slideover');`
+    | and add `require('vendor/maltebaer/slideover/resources/js/slideover');`
     | to your script bundler like webpack.
     |
     */

@@ -1,9 +1,9 @@
 <p align="center">
-<a href="https://github.com/wire-elements/slideover/actions"><img src="https://github.com/wire-elements/slideover/workflows/PHPUnit/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/wire-elements/slideover"><img src="https://img.shields.io/packagist/dt/wire-elements/slideover" alt="Total Downloads"></a>
+<a href="https://github.com/maltebaer/slideover/actions"><img src="https://github.com/maltebaer/slideover/workflows/PHPUnit/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/maltebaer/slideover"><img src="https://img.shields.io/packagist/dt/maltebaer/slideover" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/livewire-ui/slideover"><img src="https://img.shields.io/packagist/dt/livewire-ui/slideover" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/wire-elements/slideover"><img src="https://img.shields.io/packagist/v/wire-elements/slideover" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/wire-elements/slideover"><img src="https://img.shields.io/packagist/l/wire-elements/slideover" alt="License"></a>
+<a href="https://packagist.org/packages/maltebaer/slideover"><img src="https://img.shields.io/packagist/v/maltebaer/slideover" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/maltebaer/slideover"><img src="https://img.shields.io/packagist/l/maltebaer/slideover" alt="License"></a>
 </p>
 
 ## About Wire Elements Slideover
@@ -18,7 +18,7 @@ Click the image above to read a full article on using the Wire Elements slideove
 To get started, require the package via Composer:
 
 ```
-composer require wire-elements/slideover
+composer require maltebaer/slideover
 ```
 
 ## Livewire directive
@@ -331,7 +331,7 @@ You can also optionally call the `destroySkippedSlideovers()` method to destroy 
 ## Building Tailwind CSS for production
 To purge the classes used by the package, add the following lines to your purge array in `tailwind.config.js`:
 ```js
-'./vendor/wire-elements/slideover/resources/views/*.blade.php',
+'./vendor/maltebaer/slideover/resources/views/*.blade.php',
 './storage/framework/views/*.php',
 ```
 
@@ -340,7 +340,7 @@ Because some classes are dynamically build you should add some classes to the pu
 module.exports = {
   purge: {
     content: [
-      './vendor/wire-elements/slideover/resources/views/*.blade.php',
+      './vendor/maltebaer/slideover/resources/views/*.blade.php',
       './storage/framework/views/*.php',
       './resources/views/**/*.blade.php',
     ],
@@ -393,7 +393,7 @@ return [
     |
     | Livewire UI will inject the required Javascript in your blade template.
     | If you want to bundle the required Javascript you can set this to false
-    | and add `require('vendor/wire-elements/slideover/resources/js/slideover');`
+    | and add `require('vendor/maltebaer/slideover/resources/js/slideover');`
     | to your script bundler like webpack.
     |
     */
@@ -438,6 +438,6 @@ WireElements is open-sourced software licensed under the [MIT license](LICENSE.m
 
 ## Beautiful components crafted with Livewire
 
-<a href="https://wire-elements.dev/"><img src="https://philo.dev/content/images/size/w1000/2022/05/wire-elements-pro.png" width="600" alt="" /></a>
+<a href="https://maltebaer.dev/"><img src="https://philo.dev/content/images/size/w1000/2022/05/maltebaer-pro.png" width="600" alt="" /></a>
 
-<a href="https://wire-elements.dev/">Sign up to get notified</a>
+<a href="https://maltebaer.dev/">Sign up to get notified</a>
