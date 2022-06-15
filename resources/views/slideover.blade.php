@@ -18,51 +18,53 @@
         x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"
         x-on:keydown.shift.tab.prevent="prevFocusable().focus()"
         x-show="show"
-        class="fixed inset-0 z-10 overflow-y-auto"
+        class="relative z-10"
         style="display: none;"
+        aria-labelledby="slide-over-title"
+        role="dialog"
+        aria-modal="true"
     >
-        <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-10 text-center sm:block sm:p-0">
-            <div
-                x-show="show"
-                x-on:click="closeSlideoverOnClickAway()"
-                x-transition:enter="ease-out duration-300"
-                x-transition:enter-start="opacity-0"
-                x-transition:enter-end="opacity-100"
-                x-transition:leave="ease-in duration-200"
-                x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0"
-                class="fixed inset-0 transition-all transform"
-            >
-                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
+        <!-- Background backdrop -->
+        <div
+            x-show="show"
+            x-transition:enter="transition-opacity ease-linear duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity ease-linear duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 bg-gray-600 bg-opacity-75"
+        ></div>
 
-            <span
-                class="hidden sm:inline-block sm:align-middle sm:h-screen"
-                aria-hidden="true"
-            >&#8203;</span>
-
-            <div
-                x-show="show && showActiveComponent"
-                x-transition:enter="ease-out duration-300"
-                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                x-transition:leave="ease-in duration-200"
-                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                x-bind:class="slideoverWidth"
-                class="inline-block w-full align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full"
-                id="slideover-container"
-            >
-                @forelse($components as $id => $component)
+        <div class="fixed inset-0 overflow-hidden">
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="fixed inset-y-0 right-0 flex max-w-full pl-10 pointer-events-none sm:pl-16">
                     <div
-                        x-show.immediate="activeComponent == '{{ $id }}'"
-                        x-ref="{{ $id }}"
-                        wire:key="{{ $id }}"
+                        @click.outside="show = false"
+                        id="slideover-container"
+                        x-show="show && showActiveComponent"
+                        x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700"
+                        x-transition:enter-start="translate-x-full"
+                        x-transition:enter-end="translate-x-0"
+                        x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700"
+                        x-transition:leave-start="translate-x-0"
+                        x-transition:leave-end="translate-x-full"
+                        x-bind:class="slideoverWidth"
+                        class="w-screen pointer-events-auto"
                     >
-                        @livewire($component['name'], $component['attributes'], key($id))
+                        @forelse($components as $id => $component)
+                            <div
+                                x-show.immediate="activeComponent == '{{ $id }}'"
+                                x-ref="{{ $id }}"
+                                wire:key="{{ $id }}"
+                                class="h-full"
+                            >
+                                @livewire($component['name'], $component['attributes'], key($id))
+                            </div>
+                        @empty
+                        @endforelse
                     </div>
-                @empty
-                @endforelse
+                </div>
             </div>
         </div>
     </div>
