@@ -1,5 +1,6 @@
 {
   "name": "maltebaer/slideover",
+  "type": "library",
   "description": "Laravel Livewire slideover component, forked from wire-elements/modal component by Philo Hermans.",
   "keywords": [
     "laravel",
