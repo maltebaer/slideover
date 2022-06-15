@@ -1,8 +1,7 @@
 <?php
 
-namespace LivewireUI\Modal\Contracts;
+namespace LivewireUI\Slideover\Contracts;
 
-interface ModalComponent
+interface SlideoverComponent
 {
-
 }

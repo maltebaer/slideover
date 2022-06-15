@@ -1,82 +1,81 @@
 <?php
 
-namespace LivewireUI\Modal\Tests;
+namespace LivewireUI\Slideover\Tests;
 
 use Livewire\Livewire;
-use LivewireUI\Modal\Modal;
-use LivewireUI\Modal\Tests\Components\DemoModal;
-use LivewireUI\Modal\Tests\Components\InvalidModal;
+use LivewireUI\Slideover\Slideover;
+use LivewireUI\Slideover\Tests\Components\DemoSlideover;
+use LivewireUI\Slideover\Tests\Components\InvalidSlideover;
 
 use function PHPUnit\Framework\assertArrayNotHasKey;
 
-class LivewireModalTest extends TestCase
+class LivewireSlideoverTest extends TestCase
 {
-    public function testOpenModalEventListener(): void
+    public function testOpenSlideoverEventListener(): void
     {
-        // Demo modal component
-        Livewire::component('demo-modal', DemoModal::class);
-        
+        // Demo slideover component
+        Livewire::component('demo-slideover', DemoSlideover::class);
+
         // Event attributes
-        $component = 'demo-modal';
-        $componentAttributes = [ 'message' => 'Foobar' ];
-        $modalAttributes = [ 'hello' => 'world', 'closeOnEscape' => true, 'maxWidth' => '2xl',  'maxWidthClass' => 'sm:max-w-md md:max-w-xl lg:max-w-2xl', 'closeOnClickAway' => true, 'closeOnEscapeIsForceful' => true, 'dispatchCloseEvent' => false, 'destroyOnClose' => false ];
-        
-        // Demo modal unique identifier
+        $component = 'demo-slideover';
+        $componentAttributes = ['message' => 'Foobar'];
+        $slideoverAttributes = ['hello' => 'world', 'closeOnEscape' => true, 'maxWidth' => '2xl',  'maxWidthClass' => 'sm:max-w-md md:max-w-xl lg:max-w-2xl', 'closeOnClickAway' => true, 'closeOnEscapeIsForceful' => true, 'dispatchCloseEvent' => false, 'destroyOnClose' => false];
+
+        // Demo slideover unique identifier
         $id = md5($component . serialize($componentAttributes));
-        
-        Livewire::test(Modal::class)
-            ->emit('openModal', $component, $componentAttributes, $modalAttributes)
+
+        Livewire::test(Slideover::class)
+            ->emit('openSlideover', $component, $componentAttributes, $slideoverAttributes)
             // Verify component is added to $components
             ->assertSet('components', [
                 $id => [
                     'name'            => $component,
                     'attributes'      => $componentAttributes,
-                    'modalAttributes' => $modalAttributes,
+                    'slideoverAttributes' => $slideoverAttributes,
                 ],
             ])
             // Verify component is set to active
             ->assertSet('activeComponent', $id)
             // Verify event is emitted to client
-            ->assertEmitted('activeModalComponentChanged', $id);
+            ->assertEmitted('activeSlideoverComponentChanged', $id);
     }
-    
+
     public function testDestroyComponentEventListener(): void
     {
-        // Demo modal component
-        Livewire::component('demo-modal', DemoModal::class);
-        
-        $component = 'demo-modal';
-        $componentAttributes = [ 'message' => 'Foobar' ];
-        $modalAttributes = [ 'hello' => 'world', 'closeOnEscape' => true, 'maxWidth' => '2xl', 'maxWidthClass' => 'sm:max-w-md md:max-w-xl lg:max-w-2xl', 'closeOnClickAway' => true, 'closeOnEscapeIsForceful' => true, 'dispatchCloseEvent' => false, 'destroyOnClose' => false ];
-        
-        // Demo modal unique identifier
+        // Demo slideover component
+        Livewire::component('demo-slideover', DemoSlideover::class);
+
+        $component = 'demo-slideover';
+        $componentAttributes = ['message' => 'Foobar'];
+        $slideoverAttributes = ['hello' => 'world', 'closeOnEscape' => true, 'maxWidth' => '2xl', 'maxWidthClass' => 'sm:max-w-md md:max-w-xl lg:max-w-2xl', 'closeOnClickAway' => true, 'closeOnEscapeIsForceful' => true, 'dispatchCloseEvent' => false, 'destroyOnClose' => false];
+
+        // Demo slideover unique identifier
         $id = md5($component . serialize($componentAttributes));
-        
-        Livewire::test(Modal::class)
-            ->emit('openModal', $component, $componentAttributes, $modalAttributes)
+
+        Livewire::test(Slideover::class)
+            ->emit('openSlideover', $component, $componentAttributes, $slideoverAttributes)
             ->assertSet('components', [
                 $id => [
                     'name'            => $component,
                     'attributes'      => $componentAttributes,
-                    'modalAttributes' => $modalAttributes,
+                    'slideoverAttributes' => $slideoverAttributes,
                 ],
             ])
             ->emit('destroyComponent', $id)
             ->assertSet('components', []);
-        
     }
-    
-    public function testModalReset(): void
+
+    public function testSlideoverReset(): void
     {
-        Livewire::component('demo-modal', DemoModal::class);
-        
-        Livewire::test(Modal::class)
-            ->emit('openModal', 'demo-modal')
+        Livewire::component('demo-slideover', DemoSlideover::class);
+
+        Livewire::test(Slideover::class)
+            ->emit('openSlideover', 'demo-slideover')
             ->set('components', [
                 'some-component' => [
-                    'name'            => 'demo-modal',
+                    'name'            => 'demo-slideover',
                     'attributes'      => 'bar',
-                    'modalAttributes' => [],
+                    'slideoverAttributes' => [],
                 ],
             ])
             ->set('activeComponent', 'some-component')
@@ -85,14 +84,14 @@ class LivewireModalTest extends TestCase
             ->assertSet('activeComponent', null)
             ->assertSet('components', []);
     }
-    
-    public function testIfExceptionIsThrownIfModalDoesNotImplementContract(): void
+
+    public function testIfExceptionIsThrownIfSlideoverDoesNotImplementContract(): void
     {
-        $component = InvalidModal::class;
+        $component = InvalidSlideover::class;
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("[{$component}] does not implement [LivewireUI\Modal\Contracts\ModalComponent] interface.");
-        
-        Livewire::component('invalid-modal', $component);
-        Livewire::test(Modal::class)->emit('openModal', 'invalid-modal');
+        $this->expectExceptionMessage("[{$component}] does not implement [LivewireUI\Slideover\Contracts\SlideoverComponent] interface.");
+
+        Livewire::component('invalid-slideover', $component);
+        Livewire::test(Slideover::class)->emit('openSlideover', 'invalid-slideover');
     }
 }

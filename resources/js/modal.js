@@ -1,46 +1,46 @@
-window.LivewireUIModal = () => {
+window.LivewireUISlideover = () => {
     return {
         show: false,
         showActiveComponent: true,
         activeComponent: false,
         componentHistory: [],
-        modalWidth: null ,
-        getActiveComponentModalAttribute(key) {
+        slideoverWidth: null ,
+        getActiveComponentSlideoverAttribute(key) {
             if (this.$wire.get('components')[this.activeComponent] !== undefined) {
-                return this.$wire.get('components')[this.activeComponent]['modalAttributes'][key];
+                return this.$wire.get('components')[this.activeComponent]['slideoverAttributes'][key];
             }
         },
-        closeModalOnEscape(trigger) {
-            if (this.getActiveComponentModalAttribute('closeOnEscape') === false) {
+        closeSlideoverOnEscape(trigger) {
+            if (this.getActiveComponentSlideoverAttribute('closeOnEscape') === false) {
                 return;
             }
 
-            let force = this.getActiveComponentModalAttribute('closeOnEscapeIsForceful') === true;
-            this.closeModal(force);
+            let force = this.getActiveComponentSlideoverAttribute('closeOnEscapeIsForceful') === true;
+            this.closeSlideover(force);
         },
-        closeModalOnClickAway(trigger) {
-            if (this.getActiveComponentModalAttribute('closeOnClickAway') === false) {
+        closeSlideoverOnClickAway(trigger) {
+            if (this.getActiveComponentSlideoverAttribute('closeOnClickAway') === false) {
                 return;
             }
 
-            this.closeModal(true);
+            this.closeSlideover(true);
         },
-        closeModal(force = false, skipPreviousModals = 0, destroySkipped = false) {
+        closeSlideover(force = false, skipPreviousSlideovers = 0, destroySkipped = false) {
             if(this.show === false) {
                 return;
             }
 
-            if (this.getActiveComponentModalAttribute('dispatchCloseEvent') === true) {
+            if (this.getActiveComponentSlideoverAttribute('dispatchCloseEvent') === true) {
                 const componentName = this.$wire.get('components')[this.activeComponent].name;
-                Livewire.emit('modalClosed', componentName);
+                Livewire.emit('slideoverClosed', componentName);
             }
 
-            if (this.getActiveComponentModalAttribute('destroyOnClose') === true) {
+            if (this.getActiveComponentSlideoverAttribute('destroyOnClose') === true) {
                 Livewire.emit('destroyComponent', this.activeComponent);
             }
 
-            if (skipPreviousModals > 0) {
-                for (var i = 0; i < skipPreviousModals; i++) {
+            if (skipPreviousSlideovers > 0) {
+                for (var i = 0; i < skipPreviousSlideovers; i++) {
                     if (destroySkipped) {
                         const id = this.componentHistory[this.componentHistory.length - 1];
                         Livewire.emit('destroyComponent', id);
@@ -53,7 +53,7 @@ window.LivewireUIModal = () => {
 
             if (id && force === false) {
                 if (id) {
-                    this.setActiveModalComponent(id, true);
+                    this.setActiveSlideoverComponent(id, true);
                 } else {
                     this.setShowPropertyTo(false);
                 }
@@ -61,7 +61,7 @@ window.LivewireUIModal = () => {
                 this.setShowPropertyTo(false);
             }
         },
-        setActiveModalComponent(id, skip = false) {
+        setActiveSlideoverComponent(id, skip = false) {
             this.setShowPropertyTo(true);
 
             if (this.activeComponent === id) {
@@ -77,7 +77,7 @@ window.LivewireUIModal = () => {
             if (this.activeComponent === false) {
                 this.activeComponent = id
                 this.showActiveComponent = true;
-                this.modalWidth = this.getActiveComponentModalAttribute('maxWidthClass');
+                this.slideoverWidth = this.getActiveComponentSlideoverAttribute('maxWidthClass');
             } else {
                 this.showActiveComponent = false;
 
@@ -86,7 +86,7 @@ window.LivewireUIModal = () => {
                 setTimeout(() => {
                     this.activeComponent = id;
                     this.showActiveComponent = true;
-                    this.modalWidth = this.getActiveComponentModalAttribute('maxWidthClass');
+                    this.slideoverWidth = this.getActiveComponentSlideoverAttribute('maxWidthClass');
                 }, 300);
             }
 
@@ -138,14 +138,14 @@ window.LivewireUIModal = () => {
             }
         },
         init() {
-            this.modalWidth = this.getActiveComponentModalAttribute('maxWidthClass');
+            this.slideoverWidth = this.getActiveComponentSlideoverAttribute('maxWidthClass');
 
-            Livewire.on('closeModal', (force = false, skipPreviousModals = 0, destroySkipped = false) => {
-                this.closeModal(force, skipPreviousModals, destroySkipped);
+            Livewire.on('closeSlideover', (force = false, skipPreviousSlideovers = 0, destroySkipped = false) => {
+                this.closeSlideover(force, skipPreviousSlideovers, destroySkipped);
             });
 
-            Livewire.on('activeModalComponentChanged', (id) => {
-                this.setActiveModalComponent(id);
+            Livewire.on('activeSlideoverComponentChanged', (id) => {
+                this.setActiveSlideoverComponent(id);
             });
         }
     };

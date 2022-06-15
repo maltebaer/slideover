@@ -1,69 +1,69 @@
 <?php
 
-namespace LivewireUI\Modal\Tests;
+namespace LivewireUI\Slideover\Tests;
 
 use Livewire\Livewire;
-use LivewireUI\Modal\Tests\Components\DemoModal;
+use LivewireUI\Slideover\Tests\Components\DemoSlideover;
 
-class LivewireModalComponentTest extends TestCase
+class LivewireSlideoverComponentTest extends TestCase
 {
-    public function testCloseModal(): void
+    public function testCloseSlideover(): void
     {
-        Livewire::test(DemoModal::class)
-            ->call('closeModal')
-            ->assertEmitted('closeModal', false, 0, false);
+        Livewire::test(DemoSlideover::class)
+            ->call('closeSlideover')
+            ->assertEmitted('closeSlideover', false, 0, false);
     }
 
-    public function testForceCloseModal(): void
+    public function testForceCloseSlideover(): void
     {
-        Livewire::test(DemoModal::class)
+        Livewire::test(DemoSlideover::class)
             ->call('forceClose')
-            ->call('closeModal')
-            ->assertEmitted('closeModal', true, 0, false);
+            ->call('closeSlideover')
+            ->assertEmitted('closeSlideover', true, 0, false);
     }
 
-    public function testModalSkipping(): void
+    public function testSlideoverSkipping(): void
     {
-        Livewire::test(DemoModal::class)
-            ->call('skipPreviousModals', 5)
-            ->call('closeModal')
-            ->assertEmitted('closeModal', false, 5, false);
+        Livewire::test(DemoSlideover::class)
+            ->call('skipPreviousSlideovers', 5)
+            ->call('closeSlideover')
+            ->assertEmitted('closeSlideover', false, 5, false);
 
-        Livewire::test(DemoModal::class)
-            ->call('skipPreviousModal')
-            ->call('closeModal')
-            ->assertEmitted('closeModal', false, 1, false);
+        Livewire::test(DemoSlideover::class)
+            ->call('skipPreviousSlideover')
+            ->call('closeSlideover')
+            ->assertEmitted('closeSlideover', false, 1, false);
 
-        Livewire::test(DemoModal::class)
-            ->call('skipPreviousModal')
-            ->call('destroySkippedModals')
-            ->call('closeModal')
-            ->assertEmitted('closeModal', false, 1, true);
+        Livewire::test(DemoSlideover::class)
+            ->call('skipPreviousSlideover')
+            ->call('destroySkippedSlideovers')
+            ->call('closeSlideover')
+            ->assertEmitted('closeSlideover', false, 1, true);
     }
 
-    public function testModalEventEmitting(): void
+    public function testSlideoverEventEmitting(): void
     {
-        Livewire::test(DemoModal::class)
-            ->call('closeModalWithEvents', [
+        Livewire::test(DemoSlideover::class)
+            ->call('closeSlideoverWithEvents', [
                 'someEvent',
             ])
             ->assertEmitted('someEvent');
 
-        Livewire::test(DemoModal::class)
-            ->call('closeModalWithEvents', [
-                DemoModal::getName() => 'someEvent',
+        Livewire::test(DemoSlideover::class)
+            ->call('closeSlideoverWithEvents', [
+                DemoSlideover::getName() => 'someEvent',
             ])
             ->assertEmitted('someEvent');
 
-        Livewire::test(DemoModal::class)
-            ->call('closeModalWithEvents', [
+        Livewire::test(DemoSlideover::class)
+            ->call('closeSlideoverWithEvents', [
                 ['someEventWithParams', ['param1', 'param2']],
             ])
             ->assertEmitted('someEventWithParams', 'param1', 'param2');
 
-        Livewire::test(DemoModal::class)
-            ->call('closeModalWithEvents', [
-                DemoModal::getName() => ['someEventWithParams', ['param1', 'param2']],
+        Livewire::test(DemoSlideover::class)
+            ->call('closeSlideoverWithEvents', [
+                DemoSlideover::getName() => ['someEventWithParams', ['param1', 'param2']],
             ])
             ->assertEmitted('someEventWithParams', 'param1', 'param2');
     }

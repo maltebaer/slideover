@@ -1,16 +1,16 @@
 <?php
 
-namespace LivewireUI\Modal;
+namespace LivewireUI\Slideover;
 
 use InvalidArgumentException;
 use Livewire\Component;
-use LivewireUI\Modal\Contracts\ModalComponent as Contract;
+use LivewireUI\Slideover\Contracts\SlideoverComponent as Contract;
 
-abstract class ModalComponent extends Component implements Contract
+abstract class SlideoverComponent extends Component implements Contract
 {
     public bool $forceClose = false;
 
-    public int $skipModals = 0;
+    public int $skipSlideovers = 0;
 
     public bool $destroySkipped = false;
 
@@ -27,23 +27,23 @@ abstract class ModalComponent extends Component implements Contract
         '7xl' => 'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl 2xl:max-w-7xl',
     ];
 
-    public function destroySkippedModals(): self
+    public function destroySkippedSlideovers(): self
     {
         $this->destroySkipped = true;
 
         return $this;
     }
 
-    public function skipPreviousModals($count = 1, $destroy = false): self
+    public function skipPreviousSlideovers($count = 1, $destroy = false): self
     {
-        $this->skipPreviousModal($count, $destroy);
+        $this->skipPreviousSlideover($count, $destroy);
 
         return $this;
     }
 
-    public function skipPreviousModal($count = 1, $destroy = false): self
+    public function skipPreviousSlideover($count = 1, $destroy = false): self
     {
-        $this->skipModals = $count;
+        $this->skipSlideovers = $count;
         $this->destroySkipped = $destroy;
 
         return $this;
@@ -56,60 +56,63 @@ abstract class ModalComponent extends Component implements Contract
         return $this;
     }
 
-    public function closeModal(): void
+    public function closeSlideover(): void
     {
-        $this->emit('closeModal', $this->forceClose, $this->skipModals, $this->destroySkipped);
+        $this->emit('closeSlideover', $this->forceClose, $this->skipSlideovers, $this->destroySkipped);
     }
 
-    public function closeModalWithEvents(array $events): void
+    public function closeSlideoverWithEvents(array $events): void
     {
-        $this->emitModalEvents($events);
-        $this->closeModal();
+        $this->emitSlideoverEvents($events);
+        $this->closeSlideover();
     }
 
-    public static function modalMaxWidth(): string
+    public static function slideoverMaxWidth(): string
     {
-        return config('livewire-ui-modal.component_defaults.modal_max_width', '2xl');
+        return config('livewire-ui-slideover.component_defaults.slideover_max_width', '2xl');
     }
 
-    public static function modalMaxWidthClass(): string
+    public static function slideoverMaxWidthClass(): string
     {
-        if (!array_key_exists(static::modalMaxWidth(), static::$maxWidths)) {
+        if (!array_key_exists(static::slideoverMaxWidth(), static::$maxWidths)) {
             throw new InvalidArgumentException(
-                sprintf('Modal max width [%s] is invalid. The width must be one of the following [%s].',
-                    static::modalMaxWidth(), implode(', ', array_keys(static::$maxWidths))),
+                sprintf(
+                    'Slideover max width [%s] is invalid. The width must be one of the following [%s].',
+                    static::slideoverMaxWidth(),
+                    implode(', ', array_keys(static::$maxWidths))
+                ),
             );
         }
 
-        return static::$maxWidths[static::modalMaxWidth()];
-    }
-    
-    public static function closeModalOnClickAway(): bool
-    {
-        return config('livewire-ui-modal.component_defaults.close_modal_on_click_away', true);
+        return static::$maxWidths[static::slideoverMaxWidth()];
     }
 
-    public static function closeModalOnEscape(): bool
+    public static function closeSlideoverOnClickAway(): bool
     {
-        return config('livewire-ui-modal.component_defaults.close_modal_on_escape', true);
+        return config('livewire-ui-slideover.component_defaults.close_slideover_on_click_away', true);
     }
 
-    public static function closeModalOnEscapeIsForceful(): bool
+    public static function closeSlideoverOnEscape(): bool
     {
-        return config('livewire-ui-modal.component_defaults.close_modal_on_escape_is_forceful', true);
+        return config('livewire-ui-slideover.component_defaults.close_slideover_on_escape', true);
+    }
+
+    public static function closeSlideoverOnEscapeIsForceful(): bool
+    {
+        return config('livewire-ui-slideover.component_defaults.close_slideover_on_escape_is_forceful', true);
     }
 
     public static function dispatchCloseEvent(): bool
     {
-        return config('livewire-ui-modal.component_defaults.dispatch_close_event', false);
+        return config('livewire-ui-slideover.component_defaults.dispatch_close_event', false);
     }
 
     public static function destroyOnClose(): bool
     {
-        return config('livewire-ui-modal.component_defaults.destroy_on_close', false);
+        return config('livewire-ui-slideover.component_defaults.destroy_on_close', false);
     }
 
-    private function emitModalEvents(array $events): void
+    private function emitSlideoverEvents(array $events): void
     {
         foreach ($events as $component => $event) {
             if (is_array($event)) {

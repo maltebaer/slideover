@@ -1,10 +1,9 @@
 <?php
 
-namespace LivewireUI\Modal\Tests\Components;
+namespace LivewireUI\Slideover\Tests\Components;
 
 use Livewire\Component;
 
-class InvalidModal extends Component
+class InvalidSlideover extends Component
 {
-
 }
