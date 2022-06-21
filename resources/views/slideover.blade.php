@@ -13,6 +13,7 @@
     <div
         x-data="LivewireUISlideover()"
         x-init="init()"
+        x-on:click="closeSlideoverOnClickAway()"
         x-on:close.stop="setShowPropertyTo(false)"
         x-on:keydown.escape.window="closeSlideoverOnEscape()"
         x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"
