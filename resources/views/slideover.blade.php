@@ -41,7 +41,6 @@
             <div class="absolute inset-0 overflow-hidden">
                 <div class="fixed inset-y-0 right-0 flex max-w-full pl-10 pointer-events-none sm:pl-16">
                     <div
-                        @click.outside="show = false"
                         id="slideover-container"
                         x-show="show && showActiveComponent"
                         x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700"
